@@ -1,0 +1,1 @@
+import{s,C as t,F as e,bP as n}from"./index-ZNf8_ipZ.js";function i(){const o=s(!1);return t(()=>{window.requestAnimationFrame(()=>{o.value=!0})}),{ssrBootStyles:e(()=>o.value?void 0:{transition:"none !important"}),isBooted:n(o)}}export{i as u};
