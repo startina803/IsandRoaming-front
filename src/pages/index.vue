@@ -13,24 +13,23 @@
     <div class="advantages-section">
       <v-container>
         <h2 class="section-title">換宿的四大理由</h2>
-        <v-row justify="center">
+        <v-row class="windows-row" justify="center">
           <v-col
             v-for="advantage in advantages"
             :key="advantage.id"
-            cols="12"
+            cols="10"
+            lg="2"
             md="3"
-            sm="6"
+            sm="8"
           >
             <div class="window-frame">
               <div class="advantage-card" :class="{ 'is-open': advantage.isOpen }" @click="toggleWindow(advantage)">
-                <div class="shutter-top">
-                  <span class="shutter-text">{{ advantage.topText }}</span>
-                </div>
-                <div class="shutter-bottom">
-                  <span class="shutter-text">{{ advantage.bottomText }}</span>
+                <div class="window-pane">
+                  <span class="shutter-text">{{ advantage.text }}</span>
+                  <div class="window-handle" />
                 </div>
                 <div class="advantage-content">
-                  <v-img cover :src="advantage.image" />
+                  <v-img class="advantage-image" cover :src="advantage.image" />
                 </div>
               </div>
             </div>
@@ -43,6 +42,12 @@
 
 <script setup>
   import { onMounted, ref } from 'vue'
+
+  import advantageImg2 from '@/assets/images/friend.jpg'
+  import advantageImg3 from '@/assets/images/happy.jpg'
+  // 1. 從本地端 assets 匯入圖片
+  import advantageImg1 from '@/assets/images/jump.jpg' // 請確保圖片路徑正確
+  import advantageImg4 from '@/assets/images/play.jpeg'
 
   const fullText = '你準備搭上藍皮解憂列車惹嗎?'
   const displayedText = ref('')
@@ -61,12 +66,12 @@
   })
 
   // 換宿優點的資料
+  // 2. 將 image 的值從 URL 字串換成上面匯入的圖片變數
   const advantages = ref([
-    // ⭐️ 請將下面的 image URL 換成您自己的圖片路徑
-    { id: 1, topText: '跳脫', bottomText: '舒適', image: 'https://images.unsplash.com/photo-1528920304239-62a2de2b5546?q=80&w=1974', isOpen: false },
-    { id: 2, topText: '結交', bottomText: '新友', image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=2832', isOpen: false },
-    { id: 3, topText: '出走', bottomText: '解憂', image: 'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?q=80&w=2940', isOpen: false },
-    { id: 4, topText: '深入', bottomText: '在地', image: 'https://images.unsplash.com/photo-1593675462801-e52c5f3b333a?q=80&w=2940', isOpen: false },
+    { id: 1, text: '跳脫舒適', image: advantageImg1, isOpen: false },
+    { id: 2, text: '結交新友', image: advantageImg2, isOpen: false },
+    { id: 3, text: '出走解憂', image: advantageImg3, isOpen: false },
+    { id: 4, text: '深入在地', image: advantageImg4, isOpen: false },
   ])
 
   // 點擊窗戶時觸發的函式
@@ -86,7 +91,7 @@
 <style scoped>
 .hero-section {
   /* 1. 設定背景圖片和視差效果 */
-  background-image: url('@/assets/main.jpg'); /* 確保 main.jpg 在 src/assets/ 資料夾中 */
+  background-image: url('@/assets/images/main.jpg'); /* 確保 main.jpg 在 src/assets/images/ 資料夾中 */
   background-size: cover;
   background-position: center;
   background-attachment: fixed; /* ⭐️ 這是實現視差效果的關鍵 */
@@ -128,7 +133,7 @@
 }
 /* 換宿優點區塊樣式 */
 .advantages-section {
-  padding: 80px 20px;
+  padding: 40px 20px;
   /* ⭐️ 將背景改為主色系，更有整體感 */
   background-color: #3b7d96;
   text-align: center;
@@ -137,8 +142,23 @@
 .section-title {
   font-size: 2.5rem;
   margin-bottom: 60px;
-  color: white; /* ⭐️ 標題改為白色以適應深色背景 */
+  color: white;
   font-weight: bold;
+  position: relative; /* 為了 ::before 偽元素定位 */
+  padding-bottom: 10px; /* 為上方的白色區塊留出空間 */
+}
+
+/* ⭐️ 新增：標題上方的白色裝飾，模仿火車行李架或燈條 */
+.section-title::before {
+  content: '';
+  position: absolute;
+  bottom:-10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 4px;
 }
 
 .window-frame {
@@ -148,11 +168,26 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
   margin: 0 auto; /* 在小螢幕上置中 */
-  max-width: 300px; /* ⭐️ 調整這裡可以改變窗戶的整體大小 */
 }
 
 .window-frame:hover {
   transform: scale(1.05);
+}
+
+/* ⭐️ 新增：窗戶下方的線條，模仿火車窗下的檯面或扶手 */
+.windows-row {
+  position: relative;
+  padding-bottom: 30px; /* 為下方的線條留出空間 */
+}
+.windows-row::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 5%; /* 讓線條左右留點空隙 */
+  right: 5%;
+  height: 4px;
+  background: linear-gradient(to right, rgba(255,255,255,0.2), rgba(255,255,255,0.8), rgba(255,255,255,0.2)); /* 讓線條有點漸層感 */
+  border-radius: 2px;
 }
 
 .advantage-card {
@@ -163,12 +198,13 @@
   border-radius: 5px; /* 窗戶本身的圓角，比窗框小 */
 }
 
-.shutter-top,
-.shutter-bottom {
+/* ⭐️ 修改：將上下窗扇改為單一向上掀的窗格 */
+.window-pane {
   position: absolute;
+  top: 0;
   left: 0;
   width: 100%;
-  height: 50%;
+  height: 100%;
   /* ⭐️ 3. 改變這裡可以調整「窗戶本身」的顏色和透明度 */
   background-color: rgba(10, 25, 41, 0.5); /* 例如: rgba(100, 50, 20, 0.7) */
   backdrop-filter: blur(5px);
@@ -177,19 +213,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1); /* 動畫效果 */
+  transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
   z-index: 2;
-}
-
-.shutter-top {
-  top: 0;
-  /* ⭐️ 4. 改變這裡可以調整「上半部窗戶」的下邊框 */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* 格式: [粗細] [樣式] [顏色] */
-}
-
-.shutter-bottom {
-  bottom: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1); /* ⭐️ 5. 改變這裡可以調整「下半部窗戶」的上邊框 */
 }
 
 .shutter-text {
@@ -198,12 +223,27 @@
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-/* "打開" 狀態的動畫 */
-.advantage-card.is-open .shutter-top {
-  transform: translateY(-100%);
+.advantage-card.is-open .advantage-image {
+  /* 窗戶打開時，圖片稍微放大 */
+  transform: scale(1.1);
 }
-.advantage-card.is-open .shutter-bottom {
-  transform: translateY(100%);
+
+/* ⭐️ 新增：窗戶把手的樣式 */
+.window-handle {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 8px;
+  background-color: rgb(255, 89, 0);
+  border-radius: 4px;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+/* ⭐️ 修改："打開" 狀態的動畫，讓窗格向上移動 */
+.advantage-card.is-open .window-pane {
+  transform: translateY(-100%);
 }
 
 .advantage-content {
@@ -213,6 +253,13 @@
   width: 100%;
   height: 100%;
   z-index: 1;
+}
+
+/* ⭐️ 新增：確保圖片填滿容器並加上動畫效果 */
+.advantage-image {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); /* 圖片放大動畫，時間與窗戶開啟一致 */
 }
 
 .text-container {
