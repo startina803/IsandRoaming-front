@@ -1,68 +1,67 @@
 <!-- src/pages/Login.vue -->
 <template>
-  <v-container fluid>
-    <v-row align="center" justify="center" style="min-height: 80vh;">
-      <v-col cols="12">
-        <v-dialog v-model="loginDialog" max-width="800">
-          <v-card>
-            <v-card-title class="headline" style="display: flex; justify-content: center">會員登入</v-card-title>
-            <v-card-text>
-              <v-row>
-                <v-col cols="6">
-                  <v-img
-                    aspect-ratio="1"
-                    cover
-                    :src="imageUrl"
-                    @error="imageUrl = '/fallback-image.png'"
+  <div>
+    <!-- 引入首頁作為背景 -->
+    <IndexPage />
+
+    <!-- 登入視窗 -->
+    <v-dialog v-model="loginDialog" max-width="800" persistent>
+      <v-card class="pa-0">
+        <v-row no-gutters>
+          <v-col class="d-none d-md-block" md="6">
+            <v-img
+              class="rounded-l-lg"
+              cover
+              height="100%"
+              :src="imageUrl"
+              @error="imageUrl = '/fallback-image.png'"
+            />
+          </v-col>
+          <v-col class="d-flex flex-column" cols="12" md="6">
+            <div class="pa-md-8 pa-6 d-flex flex-column h-100">
+              <v-card-title class="headline text-center pa-0 mb-6">會員登入</v-card-title>
+              <v-card-text class="pa-0 flex-grow-1">
+                <v-form v-model="loginFormValid" @submit.prevent="submitLogin">
+                  <v-text-field
+                    v-model="loginAccount"
+                    label="帳號"
+                    required
+                    :rules="[v => !!v || '帳號是必填的']"
+                    variant="outlined"
                   />
-                </v-col>
-                <v-col cols="6">
-                  <v-form v-model="loginFormValid" @submit.prevent="submitLogin">
-                    <v-text-field
-                      v-model="loginAccount"
-                      label="帳號"
-                      required
-                      :rules="[v => !!v || '帳號是必填的']"
-                      variant="outlined"
-                    />
-                    <v-text-field
-                      v-model="loginPassword"
-                      label="密碼"
-                      required
-                      :rules="[v => !!v || '密碼是必填的']"
-                      type="password"
-                      variant="outlined"
-                    />
-                    <v-btn
-                      block
-                      class="mt-2"
-                      color="primary"
-                      :disabled="!loginFormValid"
-                      :loading="loginLoading"
-                      type="submit"
-                    >
-                      登入
-                    </v-btn>
-                    <v-btn
-                      class="mt-2"
-                      color="primary"
-                      text
-                      @click="goToRegister"
-                    >
-                      還沒有建立帳號嗎？註冊
-                    </v-btn>
-                  </v-form>
-                </v-col>
-              </v-row>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn color="secondary" @click="closeDialog">關閉</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-col>
-    </v-row>
-  </v-container>
+                  <v-text-field
+                    v-model="loginPassword"
+                    label="密碼"
+                    required
+                    :rules="[v => !!v || '密碼是必填的']"
+                    type="password"
+                    variant="outlined"
+                  />
+                  <v-btn
+                    block
+                    class="mt-2"
+                    color="primary"
+                    :disabled="!loginFormValid"
+                    :loading="loginLoading"
+                    type="submit"
+                  >
+                    登入
+                  </v-btn>
+                  <v-btn class="mt-2" color="primary" text @click="goToRegister">
+                    還沒有建立帳號嗎？註冊
+                  </v-btn>
+                </v-form>
+              </v-card-text>
+              <v-card-actions class="pa-0 mt-4">
+                <v-spacer />
+                <v-btn color="secondary" @click="closeDialog">關閉</v-btn>
+              </v-card-actions>
+            </div>
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>
 
 <script setup>
@@ -72,6 +71,7 @@
   import userService from '@/services/user'
   import { useUserStore } from '@/stores/user'
   import loginImage from '../assets/login-1.jpg'
+  import IndexPage from './index.vue' // ⭐️ 引入首頁元件
 
   const loginDialog = ref(false)
   const loginFormValid = ref(false)
@@ -128,8 +128,7 @@
   }
 
   const goToRegister = () => {
-    closeDialog()
-    router.push('/register')
+    router.push('/register') // 直接導航到註冊頁，此元件將被銷毀
   }
 
   const closeDialog = () => {
@@ -137,6 +136,16 @@
     router.push('/')
   }
 </script>
+
+<style scoped>
+.v-card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.v-card-text {
+  overflow-y: auto;
+}
+</style>
 
 <style scoped>
 .v-card-title {

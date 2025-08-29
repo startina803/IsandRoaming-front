@@ -1,123 +1,136 @@
 <!-- src/pages/Register.vue -->
 <template>
-  <v-container fluid>
-    <v-row align="center" justify="center" style="min-height: 80vh;">
-      <v-col cols="12">
-        <v-dialog v-model="registerDialog" max-width="800">
-          <v-card>
-            <v-card-title class="headline" style="display: flex; justify-content: center">註冊</v-card-title>
-            <v-card-text>
-              <v-row>
-                <!-- 左邊圖片 -->
-                <v-col cols="6">
-                  <v-img
-                    aspect-ratio="1"
-                    cover
-                    :src="imageUrl"
-                  />
-                </v-col>
+  <div>
+    <!-- 引入首頁作為背景 -->
+    <IndexPage />
 
-                <!-- 右邊註冊表單 -->
-                <v-col cols="6">
-                  <v-form v-model="registerFormValid" @submit.prevent="submitRegister">
-                    <v-text-field
-                      v-model="registerAccount"
-                      label="帳號"
-                      maxlength="20"
-                      required
-                      :rules="[v => !!v || '帳號是必填的', v => (v && v.length >= 4) || '至少4個字元']"
-                      variant="outlined"
-                    />
-                    <v-text-field
-                      v-model="registerEmail"
-                      label="信箱"
-                      required
-                      :rules="[v => !!v || '信箱是必填的', v => /.+@.+\..+/.test(v) || '請輸入有效信箱']"
-                      variant="outlined"
-                    />
-                    <v-text-field
-                      v-model="registerPassword"
-                      label="密碼"
-                      maxlength="20"
-                      required
-                      :rules="[v => !!v || '密碼是必填的', v => (v && v.length >= 4) || '至少4個字元']"
-                      type="password"
-                      variant="outlined"
-                    />
-                    <v-text-field
-                      v-model="registerConfirmPassword"
-                      label="確認密碼"
-                      required
-                      :rules="[v => !!v || '確認密碼是必填的', v => v === registerPassword || '密碼不匹配']"
-                      type="password"
-                      variant="outlined"
-                    />
-                    <v-text-field
-                      v-model="registerNickname"
-                      label="名字 / 旅宿名稱"
-                      maxlength="20"
-                      required
-                      :rules="[v => !!v || '暱稱是必填的']"
-                      variant="outlined"
-                    />
-                    <v-select
-                      v-model="registerIdentity"
-                      :items="identityOptions"
-                      label="身分"
-                      required
-                      :rules="[v => !!v || '請選擇身分']"
-                      variant="outlined"
-                    />
-                    <v-btn
-                      block
-                      class="mt-2"
-                      color="primary"
-                      :disabled="!registerFormValid"
-                      :loading="registerLoading"
-                      type="submit"
-                    >
-                      註冊
-                    </v-btn>
-                    <v-btn
-                      class="mt-2"
-                      color="primary"
-                      text
-                      @click="goToLogin"
-                    >
-                      返回登入
-                    </v-btn>
-                  </v-form>
-                </v-col>
-              </v-row>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn color="secondary" @click="closeDialog">關閉</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-col>
-    </v-row>
-  </v-container>
+    <!-- 註冊視窗 -->
+    <v-dialog v-model="registerDialog" max-width="800" persistent>
+      <!-- ⭐️ 修改：移除 v-card 的 padding，讓圖片可以貼齊邊緣 -->
+      <v-card class="pa-0">
+        <!-- ⭐️ 修改：使用 v-row 和 v-col 重新排版，讓圖片和表單等高 -->
+        <v-row no-gutters>
+          <!-- 左邊圖片 -->
+          <!-- ⭐️ 新增：在 md 以上的螢幕尺寸才顯示圖片 -->
+          <v-col class="d-none d-md-block" md="6">
+            <v-img
+              class="rounded-l-lg"
+              cover
+              height="100%"
+              :src="imageUrl"
+            />
+          </v-col>
+
+          <!-- 右邊註冊表單 -->
+          <v-col class="d-flex flex-column" cols="12" md="6">
+            <div class="pa-md-8 pa-6 d-flex flex-column h-100">
+              <v-card-title class="headline text-center pa-0 mb-6">註冊</v-card-title>
+              <v-card-text class="pa-0 flex-grow-1">
+                <v-form v-model="registerFormValid" @submit.prevent="submitRegister">
+                  <v-text-field
+                    v-model="form.account"
+                    label="帳號"
+                    maxlength="20"
+                    required
+                    :rules="[v => !!v || '帳號是必填的', v => (v && v.length >= 4) || '至少4個字元']"
+                    variant="outlined"
+                  />
+                  <v-text-field
+                    v-model="form.email"
+                    label="信箱"
+                    required
+                    :rules="[v => !!v || '信箱是必填的', v => /.+@.+\..+/.test(v) || '請輸入有效信箱']"
+                    variant="outlined"
+                  />
+                  <v-text-field
+                    v-model="form.password"
+                    label="密碼"
+                    maxlength="20"
+                    required
+                    :rules="[v => !!v || '密碼是必填的', v => (v && v.length >= 4) || '至少4個字元']"
+                    type="password"
+                    variant="outlined"
+                  />
+                  <v-text-field
+                    v-model="form.confirmPassword"
+                    label="確認密碼"
+                    required
+                    :rules="[v => !!v || '確認密碼是必填的', v => v === form.password || '密碼不匹配']"
+                    type="password"
+                    variant="outlined"
+                  />
+                  <v-text-field
+                    v-model="form.nickname"
+                    label="名字 / 旅宿名稱"
+                    maxlength="20"
+                    required
+                    :rules="[v => !!v || '暱稱是必填的']"
+                    variant="outlined"
+                  />
+                  <v-select
+                    v-model="form.identity"
+                    :items="identityOptions"
+                    label="身分"
+                    required
+                    :rules="[v => !!v || '請選擇身分']"
+                    variant="outlined"
+                  />
+                  <v-btn
+                    block
+                    class="mt-2"
+                    color="primary"
+                    :disabled="!registerFormValid"
+                    :loading="registerLoading"
+                    type="submit"
+                  >
+                    註冊
+                  </v-btn>
+                  <v-btn
+                    class="mt-2"
+                    color="primary"
+                    text
+                    @click="goToLogin"
+                  >
+                    返回登入
+                  </v-btn>
+                </v-form>
+              </v-card-text>
+              <v-card-actions class="pa-0 mt-4">
+                <v-spacer />
+                <v-btn color="secondary" @click="closeDialog">關閉</v-btn>
+              </v-card-actions>
+            </div>
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>
 
 <script setup>
-  import { ref, watch } from 'vue'
+  import { reactive, ref, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import { useSnackbar } from 'vuetify-use-dialog'
+  // ⭐️ 修正：將圖片名稱改為 register-1.jpg，與登入頁的命名慣例 (login-1.jpg) 保持一致。
+  // 請務必確認在 src/assets/ 資料夾中，圖片的檔名確實是 register-1.jpg
+  import registerImage from '@/assets/register-1.jpg'
   import userService from '@/services/user'
+  import IndexPage from './index.vue'
 
   const registerDialog = ref(false)
   const registerFormValid = ref(false)
   const registerLoading = ref(false)
-
-  const registerAccount = ref('')
-  const registerEmail = ref('')
-  const registerPassword = ref('')
-  const registerConfirmPassword = ref('')
-  const registerNickname = ref('')
-  const registerIdentity = ref('打工換宿者')
-  const identityOptions = ['打工換宿者', '旅宿業者']
-  const imageUrl = ref('https://via.placeholder.com/300x400') // 替換為您的圖片 URL
+  // ⭐️ 重構：使用 reactive 將表單資料整合在一起，讓程式碼更簡潔
+  const form = reactive({
+    account: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    nickname: '',
+    identity: '背包客', // 預設值應為選項之一
+  })
+  const identityOptions = ['背包客', '旅宿主人']
+  const imageUrl = ref(registerImage) // ⭐️ 使用引入的圖片
 
   const route = useRoute()
   const router = useRouter()
@@ -127,28 +140,24 @@
   watch(
     () => route.path,
     newPath => {
-      console.log('Route changed to:', newPath) // 診斷用
-      registerDialog.value = newPath === '/register' ? true : false
+      registerDialog.value = newPath === '/register'
     },
     { immediate: true }, // 立即執行一次
   )
 
   const submitRegister = async () => {
+    if (!registerFormValid.value) return
     registerLoading.value = true
     try {
-      await userService.create({
-        account: registerAccount.value,
-        email: registerEmail.value,
-        password: registerPassword.value,
-        nickname: registerNickname.value,
-        identity: registerIdentity.value,
-      })
+      // ⭐️ 重構：直接傳遞表單物件，更簡潔
+      // 使用解構賦值來排除不需要的 confirmPassword 欄位
+      const { confirmPassword, ...registerData } = form
+      await userService.create(registerData)
       createSnackbar({
-        text: '註冊成功！返回登入頁面。',
+        text: '註冊成功！將為您導向登入頁面。',
         snackbarProps: { color: 'green' },
       })
-      closeDialog()
-      router.push('/login')
+      goToLogin()
     } catch (error) {
       console.error('Register error:', error)
       createSnackbar({
@@ -161,7 +170,7 @@
   }
 
   const goToLogin = () => {
-    closeDialog()
+    // 直接導航，此頁面元件將被銷毀，對話框會自動關閉
     router.push('/login')
   }
 
@@ -176,11 +185,8 @@
   font-size: 1.5rem;
   font-weight: bold;
 }
-</style>
-
-<style scoped>
-.v-card-title {
-  font-size: 1.5rem;
-  font-weight: bold;
+.v-card-text {
+  /* ⭐️ 新增：當表單過長時，允許內部滾動 */
+  overflow-y: auto;
 }
 </style>
