@@ -12,6 +12,17 @@ import { routes } from 'vue-router/auto-routes'
 import userService from '@/services/user'
 import { useUserStore } from '@/stores/user'
 
+// ⭐️ 手動為「尋找換宿」頁面添加 meta.title
+// unplugin-vue-router 會根據檔案名稱自動生成路徑，例如 FindHost.vue -> /find-host
+const findHostRoute = routes.find(route => route.path === '/FindHost')
+if (findHostRoute) {
+  // 確保 meta 物件存在，並保留可能已存在的 meta 資訊
+  findHostRoute.meta = {
+    ...findHostRoute.meta,
+    title: '尋找換宿',
+  }
+}
+
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: setupLayouts(routes),
@@ -49,6 +60,11 @@ router.beforeEach(async (to, from, next) => {
     // 不阻擋
     next()
   }
+})
+
+router.afterEach(to => {
+  // ⭐️ 使用可選串連運算子(?.)和三元運算子，安全地設定網頁標題
+  document.title = to.meta?.title ? `${to.meta.title} | 島嶼漫遊` : '島嶼漫遊'
 })
 
 // Workaround for https://github.com/vitejs/vite/issues/11804

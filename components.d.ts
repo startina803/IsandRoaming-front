@@ -14,5 +14,6 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     TaiwanMap: typeof import('./src/components/TaiwanMap.vue')['default']
     TrainTop: typeof import('./src/components/train-top.vue')['default']
+    WelcomeTour: typeof import('./src/components/WelcomeTour.vue')['default']
   }
 }

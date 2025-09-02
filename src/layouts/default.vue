@@ -40,12 +40,12 @@
                 offset-x="-8"
                 offset-y="-8"
               >
-                <span>{{ user.nickname || '用戶' }}</span>
+                <span class="user-nickname">{{ user.nickname || '用戶' }}</span>
               </v-badge>
               <v-icon class="ml-1" small>mdi-menu-down</v-icon>
             </v-btn>
           </template>
-          <v-list :style="{ minWidth: buttonWidth + 'px' }">
+          <v-list class="user-dropdown-list" :style="{ minWidth: buttonWidth + 'px' }">
             <v-list-item
               v-for="item in dropdownItems"
               :key="item.title"
@@ -179,7 +179,9 @@
 
 .navitem1 .v-btn__content {
   position: relative;
-  top: -20px;
+  /* ⭐️ 您可以在這裡調整文字的垂直位置 */
+  /* 數值越小 (例如 -15px)，文字越往下；數值越大 (例如 -25px)，文字越往上 */
+  top: -23px;
   font-size: 1rem;
   font-weight: bold;
 }
@@ -196,6 +198,18 @@
 .custom-menu-btn {
   color: white !important;
   font-weight: bold !important;
+}
+
+/* ⭐️ 新增：專門用來調整導覽列上使用者暱稱的樣式 */
+.user-nickname {
+  font-size: 1.1rem; /* 您可以在這裡調整字體大小，例如 1.2rem 或 18px */
+}
+
+/* ⭐️ 調整下拉選單樣式 */
+.user-dropdown-list .v-list-item-title {
+  /* 建議：使用專業且易讀的深灰色，而非直接使用主色系 */
+  color: #333;
+  font-weight: 500;
 }
 
 .custom-container {
