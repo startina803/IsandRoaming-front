@@ -1,1 +1,0 @@
-import{av as a}from"./index-BMScu3kp.js";const r={create(t){return a.apiAuth.post("/applications",t)},getById(t){return a.apiAuth.get(`/applications/${t}`)},updateStatus(t,p,i){return a.apiAuth.patch(`/applications/${t}/status`,{status:p,replyMessage:i})}};export{r as a};
