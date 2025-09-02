@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="hero-section">
+      <!-- ⭐️ 移除 v-if，讓標語永遠顯示 -->
       <div class="text-container">
         <h1 class="animated-text">{{ displayedText }}<span class="cursor" /></h1>
         <p class="slogan">一個為年輕人打造的打工換宿解憂平台</p>
@@ -88,6 +89,48 @@
           </v-col>
         </v-row>
       </v-container>
+    </div>
+
+    <!-- ⭐️ 新增：下一步引導區塊，並將其作為火車動畫的容器 -->
+    <div class="next-steps-wrapper">
+      <v-container class="next-steps-container my-12">
+        <v-row justify="center">
+          <v-col class="text-center mb-8" cols="12">
+            <h2 class="text-h4 font-weight-bold text-primary">
+              準備好開始你的旅程了嗎？
+            </h2>
+            <p class="text-body-1 text-grey-darken-1 mt-2">
+              無論你是尋找獨特體驗的背包客，還是需要幫手的店家，這裡都是你的起點。
+            </p>
+          </v-col>
+        </v-row>
+
+        <v-row class="mb-6" justify="center">
+          <!-- 背包客卡片 -->
+          <v-col cols="12" lg="4" md="5">
+            <v-card class="pa-5 text-center" elevation="2">
+              <v-icon class="mb-4" color="primary" size="64">mdi-briefcase-search-outline</v-icon>
+              <v-card-title class="font-weight-bold">我是背包客</v-card-title>
+              <v-card-text>
+                打造你的專屬履歷，向心儀店家展現獨特魅力，開啟精彩的換宿之旅。
+              </v-card-text>
+              <v-btn color="primary" size="large" to="/register?role=backpacker" variant="flat">建立我的履歷</v-btn>
+            </v-card>
+          </v-col>
+
+          <!-- 店家卡片 -->
+          <v-col cols="12" lg="4" md="5">
+            <v-card class="pa-5 text-center" elevation="2">
+              <v-icon class="mb-4" color="secondary" size="64">mdi-store-plus-outline</v-icon>
+              <v-card-title class="font-weight-bold">我是店家</v-card-title>
+              <v-card-text>
+                免費刊登換宿職缺，吸引各地優秀小幫手，為您的店舖注入新活力。
+              </v-card-text>
+              <v-btn color="secondary" size="large" to="/register?role=store" variant="flat">刊登換宿職缺</v-btn>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
       <img alt="行駛中的火車" class="driving-train" :src="drivingTrainImg">
     </div>
 
@@ -100,9 +143,7 @@
 
 <script setup>
   import { onMounted, ref } from 'vue'
-  // ⭐️ 修正：將圖片名稱的底線 (_) 改為連接號 (-)，以符合常見的命名慣例
-  import drivingTrainImg from '@/assets/images/driving_train.png' // ⭐️ 修正：將檔名改回底線，以符合您檔案系統中的實際檔名
-
+  import drivingTrainImg from '@/assets/images/driving_train.png'
   import advantageImg2 from '@/assets/images/friend.jpg'
   import advantageImg3 from '@/assets/images/happy.jpg'
   // 1. 從本地端 assets 匯入圖片
@@ -226,12 +267,10 @@
 
 /* ⭐️ 新增：關於島嶼漫遊介紹區塊樣式 */
 .about-section {
-  /* ⭐️ 調整：上方 padding 縮小讓標題上移，下方加大讓火車上方空間變多 */
-  padding: 40px 20px 120px; /* 70px for train + 50px for space */
+  /* ⭐️ 調整：移除為了火車動畫而設的樣式和額外 padding */
+  padding: 60px 20px;
   background-color: #f4f7f9;
   text-align: center;
-  position: relative; /* 為了絕對定位火車 */
-  overflow-x: hidden; /* 隱藏超出範圍的火車 */
 }
 
 .section-title-about {
@@ -265,10 +304,20 @@
   margin-bottom: 20px;
 }
 
+.next-steps-wrapper {
+  position: relative;
+  overflow-x: hidden;
+  /* ⭐️ 新增：為火車動畫預留底部空間 */
+  padding-bottom: 70px; /* 火車高度 */
+}
+
 .driving-train {
   position: absolute;
-  bottom: 0; /* 貼齊 about-section 底部 */
+  /* ⭐️ 修改：將火車定位在父容器的底部 */
+  bottom: 0;
   left: 0;
+  /* ⭐️ 移除：不再需要 transform 來調整垂直位置 */
+  /* transform: translateY(-100%); */
   height: 70px;
   /* 恢復為單一火車從左到右的動畫 */
   animation: driveAcross 25s linear infinite;
@@ -278,6 +327,7 @@
 .main-footer {
   background-color: #3b7d96; /* 主色系 */
   color: white;
+  /* ⭐️ 調整：恢復正常的 padding */
   padding: 20px;
   text-align: center;
   font-size: 0.9rem;

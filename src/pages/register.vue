@@ -69,6 +69,8 @@
                   />
                   <v-select
                     v-model="form.identity"
+                    item-title="title"
+                    item-value="value"
                     :items="identityOptions"
                     label="身分"
                     required
@@ -127,9 +129,12 @@
     password: '',
     confirmPassword: '',
     nickname: '',
-    identity: '背包客', // 預設值應為選項之一
+    identity: 'seeker', // ⭐️ 修正：預設值改為 'seeker'，以匹配後端 role enum
   })
-  const identityOptions = ['背包客', '旅宿主人']
+  const identityOptions = [
+    { title: '背包客', value: 'seeker' }, // ⭐️ 修正：value 改為 'seeker'
+    { title: '旅宿主人', value: 'host' }, // ⭐️ 修正：value 改為 'host'
+  ]
   const imageUrl = ref(registerImage) // ⭐️ 使用引入的圖片
 
   const route = useRoute()
@@ -149,10 +154,18 @@
     if (!registerFormValid.value) return
     registerLoading.value = true
     try {
-      // ⭐️ 重構：直接傳遞表單物件，更簡潔
-      // 使用解構賦值來排除不需要的 confirmPassword 欄位
-      const { confirmPassword, ...registerData } = form
-      await userService.create(registerData)
+      // ⭐️ 修正：根據選擇的身分，動態建立後端需要的資料格式 (payload)
+      //    同時，將 nickname 欄位傳遞給後端
+      const payload = {
+        account: form.account,
+        email: form.email,
+        password: form.password,
+        nickname: form.nickname, // ⭐️ 新增：將 nickname 加入 payload
+        role: form.identity, // ⭐️ 修正：現在 identity 的值是 'seeker' 或 'host'
+      }
+
+      await userService.create(payload)
+
       createSnackbar({
         text: '註冊成功！將為您導向登入頁面。',
         snackbarProps: { color: 'green' },

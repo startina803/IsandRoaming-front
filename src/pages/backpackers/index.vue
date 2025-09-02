@@ -74,11 +74,13 @@
   const selectedLocation = ref(null)
 
   const user = useUserStore()
-  const locationItems = new Set([
+  // ⭐️ 修正：將 Set 轉換為 Array，確保 v-select 的行為一致且可預測。
+  // Set 本身已確保了唯一性，這裡的轉換是為了最佳實踐。
+  const locationItems = Array.from(new Set([
     '台北', '新北', '桃園', '台中', '台南', '高雄', '新竹', '苗栗',
     '彰化', '南投', '雲林', '嘉義', '屏東', '宜蘭', '花蓮', '台東',
     '澎湖', '金門', '連江', '基隆', '綠島', '小琉球', '蘭嶼', '馬祖',
-  ])
+  ]))
 
   const fetchBackpackers = async () => {
     loading.value = true

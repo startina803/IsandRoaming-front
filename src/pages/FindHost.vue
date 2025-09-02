@@ -9,11 +9,12 @@
     </v-row>
 
     <v-row>
+      <!-- ⭐️ 調整：將地圖的寬度從 6 欄增加到 7 欄 -->
       <v-col cols="12" md="6">
         <TaiwanMap :selected-county="selectedCounty" @county-selected="handleCountySelection" />
       </v-col>
-      <!-- 調整 md="5" 讓列表寬度適中，您可以視情況調整為 6 -->
-      <v-col class="job-list-column" cols="12" md="5">
+      <!-- ⭐️ 調整：將工作列表的寬度從 6 欄縮小到 5 欄 -->
+      <v-col cols="12" md="4">
         <JobList :county="selectedCounty" :error="error" :jobs="jobs" :loading="loading" />
       </v-col>
     </v-row>
@@ -85,20 +86,4 @@
   }
 </script>
 
-<style scoped>
-/* 可以根據需要添加樣式 */
-/* 這是控制長分隔線的樣式 */
-.job-list-column {
-  /* 使用 @media 確保這些樣式只在桌面版 (md breakpoint: 960px) 生效 */
-  @media (min-width: 960px) {
-    /* 1. 加上長的分隔線 (使用淡灰色，作為背景) */
-    border-left: 2px solid #eee;
-
-    /* 2. 調整長線與工作列表的整體距離 */
-    /* 這個 padding 會把整個 JobList 元件往右推，為短橘線留出空間 */
-    padding-left: 120px;
-    padding-right: 120px;
-
-  }
-}
-</style>
+<style scoped></style>
