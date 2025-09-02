@@ -72,7 +72,7 @@
   /* border: 1px solid #4a4a4a; 深灰色邊框，增加實體感 */
   border-radius: 3px;
   padding: 16px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6), inset 0 0 5px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.6), inset 0 0 3px rgba(0, 0, 0, 0.7);
   min-height: 400px;
   font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif; /* 優先使用更清晰的黑體 */
 }
