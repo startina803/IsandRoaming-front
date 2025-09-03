@@ -242,7 +242,7 @@
 /* ⭐️ 新增：向下滾動提示箭頭的樣式 */
 .scroll-down-indicator {
   position: absolute;
-  bottom: 80px;
+  bottom: 90px;
   left: 50%;
   transform: translateX(-50%);
   cursor: pointer;
@@ -474,7 +474,7 @@
   border-radius: 15px;
   /* ⭐️ 調整：將底色改為與火車車身一致的藍色 */
   background-color: #3b7d96;
-  transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+  transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
   z-index: 3;
   border: 6px solid #595959; /* ⭐️ 建議：同步將門的邊框也改為深灰色 */
   /* ⭐️ 新增：為門加上外陰影，增加立體感 */
@@ -506,7 +506,7 @@
   width: 100%;
   height: 25px;
   background-color: white;
-  transform: translateY(130%); /* ⭐️ 修正：使用 -50% 來達成精準的垂直置中 */
+  transform: translateY(128%); /* ⭐️ 修正：使用 -50% 來達成精準的垂直置中 */
   z-index: 0; /* 確保飾條在窗戶後面 */
 }
 
@@ -575,7 +575,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+  transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
   z-index: 2;
 }
 
