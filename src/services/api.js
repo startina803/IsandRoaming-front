@@ -4,11 +4,11 @@ import userService from '@/services/user'
 import { useUserStore } from '@/stores/user'
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API || 'http://localhost:4000',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:4000',
 })
 
 const apiAuth = axios.create({
-  baseURL: import.meta.env.VITE_API || 'http://localhost:4000',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:4000',
 })
 
 // axios 攔截器
