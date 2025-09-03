@@ -72,7 +72,7 @@
   /* border: 1px solid #4a4a4a; 深灰色邊框，增加實體感 */
   border-radius: 3px;
   padding: 16px;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.6), inset 0 0 3px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.6), inset 0 0 2px rgba(0, 0, 0, 0.7);
   min-height: 400px;
   font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif; /* 優先使用更清晰的黑體 */
 }
@@ -143,13 +143,13 @@
   color: #e0e0e0;
   border-radius: 2px; /* 圓角加在這裡 */
   /* ⭐️ 修改：將預設背景色改為帶有 20% 透明度的黑色，讓對比更強烈 */
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(167, 167, 167, 0.2);
   transition: background-color 0.3s;
 }
 
 /* ⭐️ Hover 效果作用在 .schedule-row 上 */
 .timetable-board :deep(.v-list-item:hover) .schedule-row {
-  background-color: #5e5e60; /* Hover 時的深灰色 */
+  background-color: #f3d49c; /* Hover 時的深灰色 */
 }
 
 .train-type {
@@ -165,8 +165,8 @@
   flex: 1 1 auto;
   padding: 0 16px;
   font-size: 1.2rem;
-  color: #23f342;
-  text-shadow: 0 0 4px #23f342; /* 增加光暈效果 */
+  color: #545353;
+  /* text-shadow: 0 0 4px #000000; 增加光暈效果 */
   font-family: 'KaiTi', 'BiauKai', serif;
   font-weight: bold; /* ⭐️ 將字體加粗 */
 }

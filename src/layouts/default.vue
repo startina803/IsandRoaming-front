@@ -3,7 +3,7 @@
   <v-app-bar color="primary" :height="80">
     <v-container class="d-flex align-center custom-container">
       <v-img class="mr-2" max-height="40" max-width="40" src="@/assets/logo.png" />
-      <v-app-bar-title class="d-flex align-center" :class="{ 'cursor-pointer': true }" @click="router.push('/')">
+      <v-app-bar-title class="d-flex align-center brand-title" :class="{ 'cursor-pointer': true }" @click="router.push('/')">
         島嶼漫遊
       </v-app-bar-title>
       <div class="navitem1">
@@ -150,6 +150,13 @@
 .v-toolbar-title {
   flex: none;
   max-width: 950px;
+}
+
+.brand-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.5rem; /* 調整為適合 Noto Serif TC 的大小 */
+  font-weight: 600; /* Serif 字體通常需要一些粗度來突顯 */
+  letter-spacing: 0.1em; /* 增加字距，提升質感 */
 }
 
 .navitem1 {

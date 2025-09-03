@@ -5,7 +5,7 @@
     <IndexPage />
 
     <!-- 註冊視窗 -->
-    <v-dialog v-model="registerDialog" max-width="800" persistent>
+    <v-dialog v-model="registerDialog" max-width="850" persistent>
       <!-- ⭐️ 修改：移除 v-card 的 padding，讓圖片可以貼齊邊緣 -->
       <v-card class="pa-0">
         <!-- ⭐️ 修改：使用 v-row 和 v-col 重新排版，讓圖片和表單等高 -->
